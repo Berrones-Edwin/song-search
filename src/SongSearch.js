@@ -30,9 +30,6 @@ const SongSearch = () => {
                 HelperHTTP().get(urlBio),
                 HelperHTTP().get(urlSong),
             ]);
-
-            console.log(artistResponse, songResponse);
-
             setBio(artistResponse);
             setLyrics(songResponse);
             setLoading(false);
