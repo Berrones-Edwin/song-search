@@ -1,4 +1,4 @@
-import { Box, HStack } from "@chakra-ui/layout";
+import { HStack } from "@chakra-ui/layout";
 import React from "react";
 import Message from "./Message";
 import SongArtist from "./SongArtist";
@@ -11,9 +11,7 @@ const SongDetails = ({ search, bio, lyrics }) => {
 
     return (
         <>
-            <HStack
-               maxWidth="100%"
-            >
+            <HStack maxWidth="100%">
                 {lyrics.error ||
                 lyrics.err ||
                 lyrics.name === "AbortController" ? (
