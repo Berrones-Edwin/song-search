@@ -1,60 +1,40 @@
-import { Heading, VStack } from "@chakra-ui/layout";
-import React from "react";
-import { useState, useEffect } from "react";
-import Loader from "./components/Loader";
-import SongDetails from "./components/SongDetails";
-import SongForm from "./components/SongForm";
-import { HelperHTTP } from "./helpers/HelperHTTP";
+import { Center, Divider, Heading, Stack } from '@chakra-ui/react'
+import React from 'react'
+import Loader from './components/Loader'
+import SongDetails from './components/SongDetails'
+import SongForm from './components/SongForm'
+import useGetInfoSong from './hooks/useGetInfoSong'
 
 const SongSearch = () => {
-    const [search, setSearch] = useState(null);
-    const [lyrics, setLyrics] = useState(null);
-    const [bio, setBio] = useState(null);
-    const [loading, setLoading] = useState(false);
+  const { loading, search, lyrics, bio, setSearch } = useGetInfoSong({})
+  const handleSearch = (data) => {
+    setSearch(data)
+  }
 
-    useEffect(() => {
-        if (search === null) return;
-        const { song, artist } = search;
-        let urlBio = `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${encodeURI(
-            artist
-        )}`;
+  return (
+    <>
+      <Stack
+        minH={'100vh'}
+        display="flex"
+        flex-direction={'column'}
+        justifyContent={'flex-start'}
+        align="center"
+      >
+        <Stack p={4} maxW={'70%'} minW={'70%'}>
+          <Center>
+            <Heading>Song Search</Heading>
+          </Center>
 
-        let urlSong = `https://api.lyrics.ovh/v1/${encodeURI(
-            artist
-        )}/ ${encodeURI(song)}`;
+          <SongForm handleSearch={handleSearch} />
+          <Divider />
+          {loading && <Loader />}
+          {search && !loading && (
+            <SongDetails search={search} lyrics={lyrics} bio={bio} />
+          )}
+        </Stack>
+      </Stack>
+    </>
+  )
+}
 
-        const fetchData = async () => {
-            setLoading(true);
-
-            const [artistResponse, songResponse] = await Promise.all([
-                HelperHTTP().get(urlBio),
-                HelperHTTP().get(urlSong),
-            ]);
-            setBio(artistResponse);
-            setLyrics(songResponse);
-            setLoading(false);
-        };
-
-        fetchData();
-    }, [search]);
-
-    const handleSearch = (data) => {
-        setSearch(data);
-    };
-
-    return (
-        <>
-            <VStack mt={4} p={4}>
-                <Heading>Song Search</Heading>
-                
-                <SongForm handleSearch={handleSearch} />
-                {loading && <Loader />}
-                {search && !loading && (
-                    <SongDetails search={search} lyrics={lyrics} bio={bio} />
-                )}
-            </VStack>
-        </>
-    );
-};
-
-export default SongSearch;
+export default SongSearch

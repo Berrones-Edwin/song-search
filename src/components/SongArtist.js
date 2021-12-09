@@ -1,47 +1,37 @@
-import { Image } from "@chakra-ui/image";
-import { Box } from "@chakra-ui/layout";
-import React from "react";
+import { Image } from '@chakra-ui/image'
+import { Button, Heading, Stack, Text } from '@chakra-ui/react'
+import React from 'react'
 
 const SongArtist = ({ artist }) => {
-    return (
-        <>
-            <Box maxW="md">
-                <Image
-                    boxSize="200px"
-                    src={artist.strArtistWideThumb}
-                    alt={artist.strArtist}
-                />
-                <Box p={6}>
-                    <Box
-                        mt="1"
-                        fontWeight="semibold"
-                        as="h4"
-                        lineHeight="tight"
-                        isTruncated
-                    >
-                        {artist.strArtist}
-                    </Box>
+  return (
+    <>
+      <Stack>
+        <Image src={artist.strArtistWideThumb} alt={artist.strArtist} />
+        <Stack p={6}>
+          <Heading>{artist.strArtist}</Heading>
 
-                    <p>
-                        {artist.intBornYear} -{" "}
-                        {artist.intDiedYear || "Presente"}
-                    </p>
-                    <p>{artist.strCountry}</p>
-                    <p>
-                        {artist.strGenre} - {artist.strStyle}
-                    </p>
-                    <a
-                        href={`http://${artist.strWebsite}`}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Sitio Web oficial
-                    </a>
-                    {/* <p>{artist.strBiographyEN}</p> */}
-                </Box>
-            </Box>
-        </>
-    );
-};
+          <Text>
+            {artist.intBornYear} - {artist.intDiedYear || 'Presente'}
+          </Text>
+          <Text>
+            <b> Country</b> {artist.strCountry}
+          </Text>
+          <Text>
+              <b>Genre</b> {artist.strGenre} - {artist.strStyle}
+          </Text>
+          <Button
+          as='a'
+            href={`http://${artist.strWebsite}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Site Web Oficial
+          </Button>
+          <Text>{artist.strBiographyEN}</Text>
+        </Stack>
+      </Stack>
+    </>
+  )
+}
 
-export default SongArtist;
+export default SongArtist
